@@ -1,6 +1,7 @@
 const express = require('express')
 
 const app = express()
+app.use(express.json())
 
 // app.all('/',(req,res)=>{
 
@@ -19,8 +20,8 @@ app.get('/two',(req,res) =>{
    
    })
 app.post('/',(req,res) =>{
-    console.log(req)
-    res.status(200).send({"challange": req.body.challange})
+    console.log(req.body)
+    res.status(200).send({challange: req.body.challenge})
 })
 app.delete('/',(req,res) =>{
     res.send(`<h1>My Home Page----DelETE<h1>`)
