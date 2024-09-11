@@ -7,7 +7,7 @@ const app = express()
 //     res.send(`<h1>My Home Page<h1>`)
 
 // })
-app.use(express.static('public'))
+// app.use(express.static('public'))
 app.get('/',(req,res) =>{
  console.log(req)
     res.send(`<h1>My Home Page----GET<h1>`)
@@ -19,7 +19,8 @@ app.get('/two',(req,res) =>{
    
    })
 app.post('/',(req,res) =>{
-    res.send(`<h1>My Home Page----PoST<h1>`)
+    console.log(req)
+    res.status(200).send({"challange": req.body.challange})
 })
 app.delete('/',(req,res) =>{
     res.send(`<h1>My Home Page----DelETE<h1>`)
