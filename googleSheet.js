@@ -98,6 +98,7 @@ async function appendSheetData(auth, data) {
         });
     
         console.log(`${result.data.updates.updatedCells} cells appended.`);
+        return result.data.updates.updatedCells
         
     } catch (error) {
         console.error('Error in apending', error )

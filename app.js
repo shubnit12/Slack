@@ -35,13 +35,14 @@ app.post('/',async (req,res) =>{
         if(!auth){
            return res.status(500).send('Error while writing to excel ==== Auth error')
         }
+        await getSheetData(auth)
         const values = {
             ts: req.body.event_id ,
             text: req.body.event.text
         }
         const updatedCells = await appendSheetData(auth,values)
         res.send(`${updatedCells} cells updated`)
-        await getSheetData(auth)
+        
 
     } catch (error) {
         console.error('Error while writing to excel',error)
