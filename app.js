@@ -1,9 +1,10 @@
 const express = require('express')
 const admin = require('firebase-admin')
+const serviceAccount = require('/etc/secrets/dbData')
 const app = express()
 app.use(express.json())
 
-const serviceAccount = require('./keys/alerttoexcel-firebase-adminsdk-as4d4-cab3c2d204.json')
+
 
 admin.initializeApp({
     credential: admin.credential.cert(serviceAccount),
