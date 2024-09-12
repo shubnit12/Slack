@@ -1,15 +1,8 @@
 const express = require('express')
-const admin = require('firebase-admin')
-const serviceAccount = require('/etc/secrets/dbData')
+const sendToDB = require('./sendToDB')
 const app = express()
 app.use(express.json())
-
-
-
-admin.initializeApp({
-    credential: admin.credential.cert(serviceAccount),
-    databaseURL: "https://alerttoexcel-default-rtdb.firebaseio.com/"
-})
+const dbURL = "https://alerttoexcel-default-rtdb.firebaseio.com/"
 
 app.get('/',(req,res) =>{
  console.log(req)
@@ -19,14 +12,23 @@ app.get('/',(req,res) =>{
 
 app.post('/',async (req,res) =>{
     console.log(req.body)
+    console.log(req.body.token)
+    console.log()
+    let URLXX = dbURL + req.body.token +'.json'
+
     try{
-        await admin.database().ref('messsages').push(message)
-        res.status(200).send('Message Logged to DB')
+        console.log("sending data to db")
+        await sendToDB(URLXX , req.body)
+        console.log("sending data to db")
+        console.log("data sent to db")
+
+
     }catch(error){
         console.error('Error while send to DB',error)
-        res.status(500).send('Error Logging the message to DB')
-
+         res.status(500).send('Error Logging the message to DB')
     }
+    res.status(200).send('Message Logged to DB')
+
     
 })
 
