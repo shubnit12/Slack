@@ -14,7 +14,7 @@ app.post('/',async (req,res) =>{
     console.log(req.body)
     console.log(req.body.token)
     console.log()
-    let URLXX = dbURL + req.body.token +'.json'
+    let URLXX = dbURL + req.body.event_id +'.json'
 
     try{
         console.log("sending data to db")
