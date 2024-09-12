@@ -1,10 +1,5 @@
-const dbURL = "https://alerttoexcel-default-rtdb.firebaseio.com/"
-const body = {
-    "token": "xxxxxxxxxxxxxxxxxxx",
-    "challenge": "yyyyyyyyyyyyyyyyyyyyyyyyyyyyyy",
-    "type": "zzzzzzzzzzzzzzzzzzzzzzzzzzz"
-  }
-  module.exports = async function sendToDB(dbURL, data){
+
+module.exports = async function sendToDB(dbURL, data){
 
 
 const raw = JSON.stringify(data);
