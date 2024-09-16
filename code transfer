@@ -1,0 +1,153 @@
+const xlsx = require('xlsx');
+function fillDataInExcel(filePath, data) {
+    const newRow = [data.Name, data.Age, data.City];
+
+    // Step 1: Read the existing Excel file
+    const workbook = xlsx.readFile(filePath);
+
+    // Step 2: Get the first sheet (you can modify this to select a specific sheet)
+    const sheetName = workbook.SheetNames[1];
+    const sheet = workbook.Sheets[sheetName];
+    const sheetData = xlsx.utils.sheet_to_json(sheet, { header: 1 })
+    console.log(sheetData);
+
+    // Step 3: Determine the last row in the sheet
+    const range = xlsx.utils.decode_range(sheet['!ref']);
+    const lastRow = range.e.r + 1; // Last used row + 1
+
+    xlsx.utils.sheet_add_aoa(sheet, [newRow], { origin: lastRow });
+
+    // Step 6: Write the updated workbook back to the file
+    xlsx.writeFile(workbook, filePath);
+
+}
+
+// Example usage
+const data = {
+    Name: "John",
+    Age: 23,
+    City: "Temp"
+};
+
+fillDataInExcel('./Book1.xlsx', data);
+
+
+
+
+
+
+
+// function readExcelFile(filePath) {
+//     // Step 1: Read the Excel file
+//     const workbook = XLSX.readFile(filePath);
+
+//     // Step 2: Get the names of all the sheets
+//     const sheetNames = workbook.SheetNames;
+//     // console.log(sheetNames);
+
+//     // Step 3: Loop through the sheets and log their contents
+//     sheetNames.forEach(sheetName => {
+//         const sheet = workbook.Sheets[sheetName];
+//         console.log(sheet);
+//         // Step 4: Convert the sheet data into JSON format
+//         const sheetData = XLSX.utils.sheet_to_json(sheet, { header: 1 });
+
+//         // Step 5: Log the sheet name and the data to the console
+//         // console.log(`Sheet Name: ${sheetName}`);
+//         // console.log(sheetData);
+//     });
+// }
+
+// // Call the function with the path to your Excel file
+// // readExcelFile('./Book1.xlsx');
+
+
+// // const XLSX = require('xlsx');
+
+// function fillNextAvailableCell(filePath, value) {
+//     // Step 1: Read the existing Excel file
+//     const workbook = XLSX.readFile(filePath);
+    
+//     // Step 2: Get the first sheet (you can modify this to select a specific sheet)
+//     const sheetName = workbook.SheetNames[1];
+//     const sheet = workbook.Sheets[sheetName];
+
+//     // Step 3: Determine the last cell location
+//     const range = XLSX.utils.decode_range(sheet['!ref']); // Get the range of used cells
+//     console.log(range);
+//     // Step 4: Calculate the next available cell in the first column
+//     const lastRow = range.e.r + 1; // e.r gives the last row index; add 1 for the next row
+//     console.log(lastRow);
+//     const cellLocation = `A${lastRow + 1}`; // Assuming you want to fill in the first column (Column A)
+
+//     // // Step 5: Set the value in the next available cell
+//     sheet[cellLocation] = { t: 's', v: value }; // 's' stands for string
+
+//     // // Step 6: Write the updated workbook back to the file
+//     XLSX.writeFile(workbook, 'updatefile1.xlsx');
+    
+//     console.log(`Value "${value}" has been written to cell ${cellLocation} in sheet "${sheetName}".`);
+// }
+
+// // Example usage
+// fillNextAvailableCell('./Book1.xlsx', 'New Value');
+// // function fillDataInExcel(filePath, data) {
+// //     // Step 1: Read the existing Excel file
+// //     const workbook = XLSX.readFile(filePath);
+
+// //     // Step 2: Get the first sheet (you can modify this to select a specific sheet)
+// //     const sheetName = workbook.SheetNames[1];
+// //     const sheet = workbook.Sheets[sheetName];
+// //     const sheetData = XLSX.utils.sheet_to_json(sheet, { header: 1 })
+// //     console.log(sheetData);
+
+// //     // Step 3: Determine the last row in the sheet
+// //     const range = XLSX.utils.decode_range(sheet['!ref']);
+// //     const lastRow = range.e.r + 1; // Last used row + 1
+
+// //     // Step 4: Find the column indices for the keys in the data object
+// //     const headers = {};
+// //     const columnCount = range.e.c + 1; // Number of columns
+
+// //     for (let col = 0; col < columnCount; col++) {
+// //         const cell = sheet[XLSX.utils.encode_cell({ c: col, r: 0 })]; // Get the header cell in the first row
+// //         if (cell) {
+// //             headers[cell.v] = col; // Map the header value to the column index
+// //         }
+// //     }
+
+// //     // Step 5: Fill the data into the next available row
+// //     for (const key in data) {
+// //         if (headers.hasOwnProperty(key)) {
+// //             const columnIndex = headers[key];
+// //             const cellLocation = XLSX.utils.encode_cell({ c: columnIndex, r: lastRow });
+// //             sheet[cellLocation] = { t: 's', v: data[key] }; // 's' for string type
+// //         }
+// //     }
+
+// //     // Step 6: Write the updated workbook back to the file
+// //     XLSX.writeFile(workbook, 'updatedFile.xlsx');
+    
+// //     console.log(`Data has been written to the sheet "${sheetName}".`);
+// //     const sheetData1 = XLSX.utils.sheet_to_json(sheet, { header: 1 })
+// //     console.log(sheetData1);
+
+// //     const jsonData = XLSX.utils.sheet_to_json(sheet, { header: 1 });
+// //     console.log(`Data has been written to the sheet "${sheetName}":`, jsonData);
+
+// //     const updatedWorkbook = XLSX.readFile('updatedFile.xlsx');
+// //     const updatedSheet = updatedWorkbook.Sheets[sheetName];
+ 
+// //     // Convert to JSON for logging
+// //     const jsonData1 = XLSX.utils.sheet_to_json(updatedSheet, { header: 1 });
+// //     console.log(`Data has been written to the sheet "${sheetName}":`, JSON.stringify(jsonData1, null, 2));
+// // }
+
+// // // Example usage
+// // const data = {
+// //     Name: "John",
+// //     Age: 23,
+// //     City: "Temp"
+// // };
+
+// // fillDataInExcel('./Book1.xlsx', data);
